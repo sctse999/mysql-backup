@@ -1,6 +1,6 @@
 # mysql-backup
 
-This image runs mysqldump to backup data using cronjob to folder `/backup`. This fork use the container environment variables of root password MYSQL_ENV_MYSQL_ROOT_PASSWORD.
+This image runs mysqldump to backup data using cronjob to folder `/backup`. This fork use the container environment variables of root password MYSQL_ENV_MYSQL_ROOT_PASSWORD. Just simply link your container and it will use mysql root user and password (passed from container's environment variable) to backup your database.
 
 ## Usage:
 
