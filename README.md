@@ -1,21 +1,19 @@
 # mysql-backup
 
-This image runs mysqldump to backup data using cronjob to folder `/backup`
+This image runs mysqldump to backup data using cronjob to folder `/backup`. This fork use the container environment variables of root password MYSQL_ENV_MYSQL_ROOT_PASSWORD.
 
 ## Usage:
 
-    docker run -d \
-        --env MYSQL_HOST=mysql.host \
-        --env MYSQL_PORT=27017 \
-        --env MYSQL_USER=admin \
-        --env MYSQL_PASS=password \
+    docker run --rm -d \
+        --env MYSQL_DB=dbname
+        --env CRON_TIME='0 * * * *'
+        --env MAX_BACKUPS=7
+        --link db.myapp:mysql
         --volume host.folder:/backup
-        tutum/mysql-backup
+        proactivehk/mysql-backup
 
-Moreover, if you link `tutum/mysql-backup` to a mysql container(e.g. `tutum/mysql`) with an alias named mysql, this image will try to auto load the `host`, `port`, `user`, `pass` if possible.
+Moreover, if you link `proactivehk/mysql-backup` to the official mysql container with an alias named mysql, this image will try to auto load the `host`, `port`, default mysql root password if possible.
 
-    docker run -d -p 27017:27017 -p 28017:28017 -e MYSQL_PASS="mypass" --name mysql tutum/mysql
-    docker run -d --link mysql:mysql -v host.folder:/backup tutum/mysql-backup
 
 ## Parameters
 
@@ -34,8 +32,8 @@ Moreover, if you link `tutum/mysql-backup` to a mysql container(e.g. `tutum/mysq
 
 See the list of backups, you can run:
 
-    docker exec tutum-backup ls /backup
+    docker exec backup-container-name ls /backup
 
 To restore database from a certain backup, simply run:
 
-    docker exec tutum-backup /restore.sh /backup/2015.08.06.171901
+    docker exec backup-container-name /restore.sh /backup/2015.08.06.171901

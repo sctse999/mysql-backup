@@ -1,5 +1,5 @@
 FROM ubuntu:trusty
-MAINTAINER Tutum Labs <support@tutum.co>
+MAINTAINER Jonathan Tse <jtse@proactivesystem.com.hk>
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends mysql-client && \
